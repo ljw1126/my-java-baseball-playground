@@ -18,14 +18,14 @@ public class Ball {
             return BallStatus.STRIKE;
         }
 
-        if(this.sameBallNo(ball.ballNo)) {
+        if(ball.matchBallNo(ballNo)) { // 메시지를 보내는 형태
             return BallStatus.BALL;
         }
 
         return BallStatus.NOTHING;
     }
 
-    private boolean sameBallNo(int ballNo) {
+    private boolean matchBallNo(int ballNo) {
         return this.ballNo == ballNo;
     }
 
