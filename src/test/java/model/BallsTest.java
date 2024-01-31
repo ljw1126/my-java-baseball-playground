@@ -1,8 +1,14 @@
 package model;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -16,45 +22,22 @@ class BallsTest {
         assertThat(computerBall).isEqualTo(expectedBall);
     }
 
-    @Test
-    void nothing() {
-        Balls userBall = new Balls(Arrays.asList(4, 5, 6));
+    @ParameterizedTest
+    @MethodSource("getBallsTestDataProvider")
+    void ballsMatchTest(List<Integer> givenBallList, ResultData expected) {
+        Balls userBall = new Balls(givenBallList);
         ResultData actual = userBall.match(computerBall);
-
-        ResultData expected = new ResultData(0, 0);
-
-        assertThat(actual.isNothing()).isTrue();
-        assertThat(actual).isEqualTo(expected);
-    }
-
-    @Test
-    void result_3strike() {
-        Balls userBall = new Balls(Arrays.asList(1, 2, 3));
-        ResultData actual = userBall.match(computerBall);
-
-        ResultData expected = new ResultData(3, 0);
 
         assertThat(actual).isEqualTo(expected);
     }
 
-    @Test
-    void result_3ball() {
-        Balls userBall = new Balls(Arrays.asList(2, 3, 1));
-        ResultData actual = userBall.match(computerBall);
-
-        ResultData expected = new ResultData(0, 3);
-
-        assertThat(actual).isEqualTo(expected);
-    }
-
-    @Test
-    void result_1strike_2ball() {
-        Balls userBall = new Balls(Arrays.asList(3, 2, 1));
-        ResultData actual = userBall.match(computerBall);
-
-        ResultData expected = new ResultData(1, 2);
-
-        assertThat(actual).isEqualTo(expected);
+    public static Stream<Arguments> getBallsTestDataProvider() {
+        return Stream.of(
+                Arguments.arguments(Arrays.asList(4, 5, 6), new ResultData(0, 0)),
+                Arguments.arguments(Arrays.asList(1, 2, 3), new ResultData(3, 0)),
+                Arguments.arguments(Arrays.asList(2, 3, 1), new ResultData(0, 3)),
+                Arguments.arguments(Arrays.asList(3, 2, 1), new ResultData(1, 2))
+        );
     }
 
 }
