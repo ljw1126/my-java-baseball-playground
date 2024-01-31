@@ -2,7 +2,9 @@ package model;
 
 import java.util.Objects;
 
-import static model.BallStatus.*;
+import static model.BallStatus.BALL;
+import static model.BallStatus.NOTHING;
+import static model.BallStatus.STRIKE;
 
 public class Ball {
     private int position;
