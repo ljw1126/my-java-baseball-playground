@@ -2,7 +2,10 @@ package model;
 
 import java.util.Objects;
 
+import static model.BallStatus.*;
+
 public class ResultData {
+    private static final int BALL_COUNT = 3;
     private int strikeCount;
     private int ballCount;
 
@@ -28,6 +31,29 @@ public class ResultData {
         if(ballStatus.isBall()) {
             this.ballCount += 1;
         }
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        
+        if(this.strikeCount > 0) {
+            sb.append(this.strikeCount).append(STRIKE.getName()).append(" ");
+        }
+        
+        if(this.ballCount > 0) {
+            sb.append(this.ballCount).append(BALL.getName()).append(" ");
+        }
+        
+        if(isNothing()) {
+            sb.append(NOTHING.getName());
+        }
+        
+        return sb.toString();        
+    }
+
+    public boolean isGameEnd() {
+        return this.strikeCount == BALL_COUNT;
     }
 
     @Override
